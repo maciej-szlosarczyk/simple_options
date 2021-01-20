@@ -1,4 +1,5 @@
 defmodule SimpleOptions do
+  # Elixir allows you to put some validation into a module attributes.
   @opts [
     name: [
       :required,
@@ -11,7 +12,11 @@ defmodule SimpleOptions do
     :simple_options.merge(opts, @opts)
   end
 
-  def merge(opts) when is_list(opts) do
+  @doc """
+  More complex option validations, especially ones that refer to
+  functions defined in the same module, need to be defined inline.
+  """
+  def merge(opts) do
     options = [
       name: [
         required: true,

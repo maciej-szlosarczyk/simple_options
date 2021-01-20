@@ -1,5 +1,11 @@
 -module(simple_options_example).
 
+%%%-------------------------------------------------------------------
+%%% @doc
+%%% Since in Erlang you can define complex functions in macros,
+%%% you can put all you option definition into one.
+%%% @end
+%%%-------------------------------------------------------------------
 -define(OPTIONS, [
     {name, [
         {required, false},
@@ -21,38 +27,6 @@
     ]}
 ]).
 
--export([
-    substitute_default/0,
-    validate_required/0,
-    validate_value/0,
-    validate_name/0,
-    validate_options/0,
-    test_matching/1
-]).
+-export([merge/1]).
 
-test_matching(Input) ->
-    X = 1,
-    case Input of
-        Y when Y =:= X -> ok;
-        Y -> {error, Y}
-    end.
-
-validate_options() ->
-    UserOpts = application:get_all_env(simple_options),
-    simple_options:merge(UserOpts, ?OPTIONS).
-
-substitute_default() ->
-    UserOpts = [{pool_size, 1}],
-    simple_options:merge(UserOpts, ?OPTIONS).
-
-validate_required() ->
-    UserOpts = [],
-    simple_options:merge(UserOpts, ?OPTIONS).
-
-validate_name() ->
-    UserOpts = [{pool_size, 10}, {name, <<"local">>}],
-    simple_options:merge(UserOpts, ?OPTIONS).
-
-validate_value() ->
-    UserOpts = [{pool_size, <<"1">>}, {name, 1}],
-    simple_options:merge(UserOpts, ?OPTIONS).
+merge(Options) -> simple_options:merge(Options, ?OPTIONS).
