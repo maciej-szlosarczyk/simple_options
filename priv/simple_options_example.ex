@@ -1,4 +1,4 @@
-defmodule SimpleOptions do
+defmodule SimpleOptionsExample do
   # Elixir allows you to put some validation into a module attributes.
   @opts [
     name: [
