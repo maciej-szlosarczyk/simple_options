@@ -1,6 +1,6 @@
 defmodule SimpleOptionsExample do
   # Elixir allows you to put some validation into a module attributes.
-  @opts [
+  @definitions [
     name: [
       :required,
       documentation: "Node name. Must be an atom.",
@@ -9,7 +9,7 @@ defmodule SimpleOptionsExample do
   ]
 
   def merge_default(opts) do
-    :simple_options.merge(opts, @opts)
+    :simple_options.merge(opts, @definitions)
   end
 
   @doc """
@@ -17,7 +17,7 @@ defmodule SimpleOptionsExample do
   functions defined in the same module, need to be defined inline.
   """
   def merge(opts) do
-    options = [
+    defintions = [
       name: [
         required: true,
         documentation: "Name of the node - either an atom or a binary",
@@ -38,7 +38,7 @@ defmodule SimpleOptionsExample do
       ]
     ]
 
-    :simple_options.merge(opts, options)
+    :simple_options.merge(opts, defintions)
   end
 
   def validate_name(name) do

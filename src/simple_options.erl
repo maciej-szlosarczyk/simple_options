@@ -54,9 +54,9 @@
 %%% @end
 %%%-------------------------------------------------------------------
 -spec merge(list(), proplist()) -> proplist().
-merge(UserOpts, DefaultOpts) when is_list(UserOpts) ->
-    ok = have_documentation(DefaultOpts),
-    do_merge(DefaultOpts, UserOpts, []);
+merge(UserOpts, Definitions) when is_list(UserOpts) ->
+    ok = have_documentation(Definitions),
+    do_merge(Definitions, UserOpts, []);
 merge(_, _) ->
     throw({error, options_must_be_list}).
 

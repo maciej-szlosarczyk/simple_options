@@ -6,7 +6,7 @@
 %%% you can put all you option definition into one.
 %%% @end
 %%%-------------------------------------------------------------------
--define(OPTIONS, [
+-define(OPTIONS_DEFINITION, [
     {name, [
         {required, false},
         {default, local},
@@ -29,4 +29,4 @@
 
 -export([merge/1]).
 
-merge(Options) -> simple_options:merge(Options, ?OPTIONS).
+merge(Options) -> simple_options:merge(Options, ?OPTIONS_DEFINITION).
