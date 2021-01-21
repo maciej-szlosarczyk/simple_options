@@ -46,7 +46,7 @@ A simple example:</p>
 <h2><a name="types">Data Types</a></h2>
 
 <h3 class="typedecl"><a name="type-proplist">proplist()</a></h3>
-<p><tt>proplist() = [{atom(), term()}]</tt></p>
+<p><tt>proplist() = [{atom(), term()} | atom()]</tt></p>
 
 
 <h2><a name="index">Function Index</a></h2>
@@ -58,7 +58,7 @@ A simple example:</p>
 
 <h3 class="function"><a name="merge-2">merge/2</a></h3>
 <div class="spec">
-<p><tt>merge(UserOpts::list(), DefaultOpts::<a href="#type-proplist">proplist()</a>) -&gt; <a href="#type-proplist">proplist()</a></tt><br></p>
+<p><tt>merge(UserOpts::list(), Definitions::<a href="#type-proplist">proplist()</a>) -&gt; <a href="#type-proplist">proplist()</a></tt><br></p>
 </div><p>
    Merge caller-provided options with the defined schema. Performs
    the following steps in sequence:

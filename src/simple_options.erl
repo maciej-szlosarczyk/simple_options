@@ -40,7 +40,7 @@
 -define(DefaultError, is_invalid).
 -define(AlwaysValid, fun(_) -> true end).
 
--type proplist() :: [{atom(), term()}].
+-type proplist() :: [{atom(), term()} | atom()].
 
 %%%-------------------------------------------------------------------
 %%% @doc
