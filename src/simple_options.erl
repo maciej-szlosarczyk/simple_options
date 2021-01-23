@@ -14,7 +14,7 @@
 %%%            caller.
 %%% validation - A function that called on input. When not provided, it is
 %%%              assumed that the option is always valid. The function can
-%%%              also return any atom that will be part of the thrown error.
+%%%              also return any atom that will be part of the error.
 %%% error_message - term that defines error to return from validation in case
 %%%                 it is false.
 %%% documentation - Documentation for the option in any form
@@ -47,7 +47,7 @@
 %%% Merge caller-provided options with the defined schema. Performs
 %%% the following steps in sequence:
 %%% Ensure all options contain a "documentation" definition.
-%%% For each defined option, raise if it is required and user did
+%%% For each defined option, errors out if it is required and user did
 %%% not provide a value.
 %%% Validate each user-provided option with provided validation
 %%% function.
@@ -58,7 +58,7 @@ merge(UserOpts, Definitions) when is_list(UserOpts) ->
     ok = have_documentation(Definitions),
     do_merge(Definitions, UserOpts, []);
 merge(_, _) ->
-    throw({error, options_must_be_list}).
+    error({error, options_must_be_list}).
 
 -spec do_merge(proplist(), proplist(), proplist()) -> proplist().
 do_merge([{Key, Opts} | Rest], UserOpts, []) ->
@@ -82,7 +82,7 @@ have_documentation([]) ->
 have_documentation([{Key, Opts} | Rest]) ->
     case proplists:get_value(documentation, Opts) of
         undefined ->
-            throw({error, {Key, must_have_documentation}});
+            error({error, {Key, must_have_documentation}});
         _ ->
             have_documentation(Rest)
     end.
@@ -94,16 +94,16 @@ validate(Value, Key, Specification) ->
         try ValidationFunction(Value) of
             false ->
                 Error = proplists:get_value(error_message, Specification, ?DefaultError),
-                throw({error, {Key, Error}});
+                error({error, {Key, Error}});
             X when is_atom(X) andalso X =/= true andalso X =/= false ->
-                throw({error, {Key, validation, X}});
+                error({error, {Key, validation, X}});
             true ->
                 true;
             _ ->
-                throw({error, {Key, validation, expected_bool}})
+                error({error, {Key, validation, expected_bool}})
         catch
             _ ->
-                throw({error, {Key, validation, expected_bool}})
+                error({error, {Key, validation, expected_bool}})
         end,
     ValidationResult.
 
@@ -117,7 +117,7 @@ ensure_required(Value, Key, Specification) ->
         true ->
             case Value of
                 undefined ->
-                    throw({error, {Key, is_required}});
+                    error({error, {Key, is_required}});
                 _ ->
                     ok
             end

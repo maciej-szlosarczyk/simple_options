@@ -29,7 +29,7 @@ required - boolean, signifies if the option is required from the
 caller.   
 validation - A function that called on input. When not provided, it is                
 assumed that the option is always valid. The function can                
-also return any atom that will be part of the thrown error.   
+also return any atom that will be part of the error.   
 error_message - term that defines error to return from validation in case                   
 it is false.   
 documentation - Documentation for the option in any form                   
@@ -63,7 +63,7 @@ A simple example:</p>
    Merge caller-provided options with the defined schema. Performs
    the following steps in sequence:
    Ensure all options contain a "documentation" definition.
-   For each defined option, raise if it is required and user did
+   For each defined option, errors out if it is required and user did
    not provide a value.
    Validate each user-provided option with provided validation
    function.</p>
