@@ -47,9 +47,8 @@ error for the first defintion that does not pass validation:
 
 ```erl
 UserOpts = [{default_timeout, 1}, {name, 1}],
-1> simple_options:merge(UserOpts, Definitions).
-** exception error: {error,{default_timeout,validation,
-                                            must_be_greater_than_300}}
+simple_options:merge(UserOpts, Definitions).
+** exception error: {error,{default_timeout,must_be_greater_than_300}}
 ```
 
 ## Examples

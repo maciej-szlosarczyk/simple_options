@@ -18,7 +18,7 @@ prop_documentation_is_really_required() ->
         merge(Options) =:= {error, {Name, must_have_documentation}}
     ).
 
-prop_default_substitution() ->
+prop_defaults_are_substituted() ->
     ?FORALL(
         [{Name, [{_, Default}, _Error, _Documentation]}] = Options,
         [
@@ -34,14 +34,21 @@ prop_default_substitution() ->
         merge(Options) =:= [{Name, Default}]
     ).
 
-prop_simple_validation_success() ->
+prop_validation_success() ->
     ?FORALL(A, proper_types:atom(), validate_is_atom([{name, A}]) == [{name, A}]).
 
-prop_simple_validation_failure() ->
+prop_validation_failure() ->
     ?FORALL(
         A,
         proper_types:binary(10),
         validate_is_atom([{name, A}]) == {error, {name, is_invalid}}
+    ).
+
+prop_raise_custom_value() ->
+    ?FORALL(
+        A,
+        proper_types:binary(10),
+        validate_is_atom_custom([{name, A}]) == {error, {name, expected_atom}}
     ).
 
 validate_is_atom(UserOpts) ->
@@ -49,6 +56,24 @@ validate_is_atom(UserOpts) ->
         {name, [{documentation, <<"name of the process">>}, {validation, fun is_atom/1}]}
     ],
     try simple_options:merge(UserOpts, DefaultOpts) of
+        X -> X
+    catch
+        error:Y -> Y
+    end.
+
+validate_is_atom_custom(UserOpts) ->
+    Definitions = [
+        {name, [
+            {documentation, <<"name of the process">>},
+            {validation, fun(X) ->
+                case is_atom(X) of
+                    false -> expected_atom;
+                    true -> true
+                end
+            end}
+        ]}
+    ],
+    try simple_options:merge(UserOpts, Definitions) of
         X -> X
     catch
         error:Y -> Y
