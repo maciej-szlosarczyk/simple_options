@@ -51,14 +51,14 @@ validate_is_atom(UserOpts) ->
     try simple_options:merge(UserOpts, DefaultOpts) of
         X -> X
     catch
-        Y -> Y
+        error:Y -> Y
     end.
 
 merge(Options) ->
     try simple_options:merge([], Options) of
         X -> X
     catch
-        Y -> Y
+        error:Y -> Y
     end.
 
 validate_all(UserOpts) ->
@@ -73,5 +73,5 @@ validate_all(UserOpts) ->
     try simple_options:merge(UserOpts, DefaultOpts) of
         X -> X
     catch
-        Y -> Y
+        error:Y -> Y
     end.
