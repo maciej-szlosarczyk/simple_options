@@ -87,7 +87,7 @@ have_documentation([{Key, Opts} | Rest]) ->
             have_documentation(Rest)
     end.
 
--spec validate(term(), atom(), proplist()) -> boolean().
+-spec validate(term(), atom(), proplist()) -> true.
 validate(Value, Key, Specification) ->
     ValidationFunction = proplists:get_value(validation, Specification, ?AlwaysValid),
     ValidationResult =
