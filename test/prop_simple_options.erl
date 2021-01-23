@@ -60,18 +60,3 @@ merge(Options) ->
     catch
         error:Y -> Y
     end.
-
-validate_all(UserOpts) ->
-    DefaultOpts = [
-        {name, [required, {documentation, <<"name of the process">>}, {validation, fun is_atom/1}]},
-        {description, [
-            {documentation, <<"name of the process">>},
-            {default, 100},
-            {validation, fun(X) -> X >= 100 end}
-        ]}
-    ],
-    try simple_options:merge(UserOpts, DefaultOpts) of
-        X -> X
-    catch
-        error:Y -> Y
-    end.
