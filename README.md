@@ -52,6 +52,14 @@ UserOpts = [{default_timeout, 1}, {name, 1}],
                                             must_be_greater_than_300}}
 ```
 
+## Examples
+
+Examples of usage are in priv folder, there is one for Erlang, and one
+for Elixir:
+
+* [Erlang](priv/simple_options_example.erl)
+* [Elixir](priv/simple_options_example.ex)
+
 ## Design
 
 Simple_options validates only list of tuples, i.e application configuration
