@@ -23,13 +23,13 @@ Definitions = [
                 end;
             (_X) ->
                 false %% Errors with value from error_message
-        end},
-        {error_message, <<"must be an integer greater than 300">>}
+        end}
     ]},
     {name, [
         {default, my_app},
         {documentation, <<"Name of your application">>},
-        {validation, fun is_atom/1}
+        {validation, fun (X) -> is_atom(X) end},
+        {error_message, must_be_an_atom}
     ]}
 ].
 ```
@@ -49,6 +49,10 @@ error for the first defintion that does not pass validation:
 UserOpts = [{default_timeout, 1}, {name, 1}],
 simple_options:merge(UserOpts, Definitions).
 ** exception error: {error,{default_timeout,must_be_greater_than_300}}
+
+UserOpts = [{default_timeout, 400}, {name, 1}],
+simple_options:merge(UserOpts, Definitions).
+** exception error: {error,{name,must_be_an_atom}}
 ```
 
 ## Examples
