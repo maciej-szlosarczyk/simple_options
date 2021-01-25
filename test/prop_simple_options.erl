@@ -51,6 +51,23 @@ prop_raise_custom_value() ->
         validate_is_atom_custom([{name, A}]) == {error, {name, expected_atom}}
     ).
 
+prop_validation_must_return_bool_or_atom() ->
+    ?FORALL(
+        A,
+        proper_types:binary(10),
+        failed_validate([{name, A}]) == {error, {name, validation, expected_bool_or_atom}}
+    ).
+
+failed_validate(UserOpts) ->
+    DefaultOpts = [
+        {name, [{documentation, <<"name of the process">>}, {validation, fun(_) -> 1 end}]}
+    ],
+    try simple_options:merge(UserOpts, DefaultOpts) of
+        X -> X
+    catch
+        error:Y -> Y
+    end.
+
 validate_is_atom(UserOpts) ->
     DefaultOpts = [
         {name, [{documentation, <<"name of the process">>}, {validation, fun is_atom/1}]}

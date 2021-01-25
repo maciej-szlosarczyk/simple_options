@@ -95,13 +95,17 @@ validate(Value, Key, Specification) ->
             false ->
                 Error = proplists:get_value(error_message, Specification, ?DefaultError),
                 error({error, {Key, Error}});
+            true ->
+                true;
+            %% Handle custom atom that will be returned into the error.
             X when is_atom(X) andalso X =/= true andalso X =/= false ->
                 error({error, {Key, X}});
-            true ->
-                true
+            %% Everything else should throw an error
+            _ ->
+                error({error, {Key, validation, expected_bool_or_atom}})
         catch
             _ ->
-                error({error, {Key, validation, expected_bool}})
+                error({error, {Key, validation, expected_bool_or_atom}})
         end,
     ValidationResult.
 
