@@ -20,14 +20,14 @@ Definitions = [
                         true %%
                 end;
             (_X) ->
-                false %% Errors with value from error_message
+                false %% Errors with is_invalid message
         end}
     ]},
     {name, [
         {default, my_app},
         {documentation, <<"Name of your application">>},
         {validation, fun (X) -> is_atom(X) end},
-        {error_message, must_be_an_atom}
+        {error_message, must_be_an_atom} %% Always errors with must_be_an_atom
     ]}
 ].
 '''

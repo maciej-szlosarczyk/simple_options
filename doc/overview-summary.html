@@ -29,14 +29,14 @@ it is properly configured before started.</p>
                         true %%
                 end;
             (_X) -&gt;
-                false %% Errors with value from error_message
+                false %% Errors with is_invalid message
         end}
     ]},
     {name, [
         {default, my_app},
         {documentation, &lt;&lt;"Name of your application"&gt;&gt;},
         {validation, fun (X) -&gt; is_atom(X) end},
-        {error_message, must_be_an_atom}
+        {error_message, must_be_an_atom} %% Always errors with must_be_an_atom
     ]}
 ].</pre>
 
