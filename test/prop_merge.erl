@@ -55,7 +55,8 @@ prop_validation_must_return_bool_or_atom() ->
     ?FORALL(
         A,
         proper_types:binary(10),
-        failed_validate([{name, A}]) == {error, {name, validation, expected_bool_or_atom}}
+        failed_validate([{name, A}]) ==
+            {error, {name, validation_return, {expected_type, atom}, {got, 1}}}
     ).
 
 failed_validate(UserOpts) ->

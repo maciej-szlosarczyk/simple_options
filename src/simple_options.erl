@@ -37,8 +37,8 @@
 
 -export([merge/2, describe/1]).
 
--define(DefaultError, is_invalid).
--define(AlwaysValid, fun(_) -> true end).
+-define(DEFAULT_ERROR, is_invalid).
+-define(ALWAYS_VALID, fun(_) -> true end).
 
 -type proplist() :: [{atom(), term()} | atom()].
 
@@ -89,11 +89,11 @@ have_documentation([{Key, Opts} | Rest]) ->
 
 -spec validate(term(), atom(), proplist()) -> true.
 validate(Value, Key, Specification) ->
-    ValidationFunction = proplists:get_value(validation, Specification, ?AlwaysValid),
+    ValidationFunction = proplists:get_value(validation, Specification, ?ALWAYS_VALID),
     ValidationResult =
-        try ValidationFunction(Value) of
+        case ValidationFunction(Value) of
             false ->
-                Error = proplists:get_value(error_message, Specification, ?DefaultError),
+                Error = proplists:get_value(error_message, Specification, ?DEFAULT_ERROR),
                 error({error, {Key, Error}});
             true ->
                 true;
@@ -101,11 +101,11 @@ validate(Value, Key, Specification) ->
             X when is_atom(X) andalso X =/= true andalso X =/= false ->
                 error({error, {Key, X}});
             %% Everything else should throw an error
-            _ ->
-                error({error, {Key, validation, expected_bool_or_atom}})
-        catch
-            _ ->
-                error({error, {Key, validation, expected_bool_or_atom}})
+            NotAcceptedValue ->
+                error(
+                    {error,
+                        {Key, validation_return, {expected_type, atom}, {got, NotAcceptedValue}}}
+                )
         end,
     ValidationResult.
 
