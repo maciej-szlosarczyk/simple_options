@@ -1,4 +1,4 @@
--module(prop_simple_options).
+-module(prop_merge).
 
 -include_lib("proper/include/proper.hrl").
 

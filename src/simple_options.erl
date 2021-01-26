@@ -35,7 +35,7 @@
 %%%-------------------------------------------------------------------
 -module(simple_options).
 
--export([merge/2]).
+-export([merge/2, describe/1]).
 
 -define(DefaultError, is_invalid).
 -define(AlwaysValid, fun(_) -> true end).
@@ -124,3 +124,18 @@ ensure_required(Value, Key, Specification) ->
                     ok
             end
     end.
+
+%%%-------------------------------------------------------------------
+%%% @doc
+%%% Return all defined option keys with their documentation values.
+%%% @end
+%%%-------------------------------------------------------------------
+-spec describe(proplist()) -> proplist().
+describe(Definitions) ->
+    lists:map(
+        fun({Key, Properties}) ->
+            Documentation = proplists:get_value(documentation, Properties),
+            {Key, Documentation}
+        end,
+        Definitions
+    ).
