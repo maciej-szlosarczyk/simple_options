@@ -1,5 +1,5 @@
 {application, simple_options, [
-    {description, "Simple options validation library"},
+    {description, "Definitions and validations of configuration options"},
     {vsn, "0.1.0"},
     {registered, []},
     {applications, [
@@ -10,5 +10,5 @@
     {modules, [simple_options]},
 
     {licenses, ["BSD 2-clause"]},
-    {links, []}
+    {links, ["https://github.com/maciej-szlosarczyk/simple_options"]}
 ]}.
