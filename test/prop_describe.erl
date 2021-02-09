@@ -12,25 +12,24 @@
 %%%-------------------------------------------------------------------
 prop_describe_returns_list_of_documentation_string() ->
     ?FORALL(
-        {X, Y},
+        {Atoms, Strings},
         {proper_types:fixed_list([atom(), atom(), atom(), atom(), atom()]),
             proper_types:fixed_list([binary(), binary(), binary(), binary(), binary()])},
-        zip_lists(X, Y)
+        begin
+            Definitions = lists:zipwith(
+                fun(Atom, String) ->
+                    {Atom, [{documentation, String}]}
+                end,
+                Atoms,
+                Strings
+            ),
+            ExpectedResult = lists:zipwith(
+                fun(Atom, String) ->
+                    {Atom, String}
+                end,
+                Atoms,
+                Strings
+            ),
+            proper:equals(simple_options:describe(Definitions), ExpectedResult)
+        end
     ).
-
-zip_lists(Atoms, Strings) ->
-    Definitions = lists:zipwith(
-        fun(Atom, String) ->
-            {Atom, [{documentation, String}]}
-        end,
-        Atoms,
-        Strings
-    ),
-    ExpectedResult = lists:zipwith(
-        fun(Atom, String) ->
-            {Atom, String}
-        end,
-        Atoms,
-        Strings
-    ),
-    simple_options:describe(Definitions) =:= ExpectedResult.

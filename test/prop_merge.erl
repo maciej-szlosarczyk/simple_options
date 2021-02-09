@@ -31,7 +31,7 @@ prop_defaults_are_substituted() ->
                 ]
             }
         ],
-        merge(Options) =:= [{Name, Default}]
+        proper:equals(merge(Options), [{Name, Default}])
     ).
 
 prop_validation_success() ->
@@ -41,22 +41,27 @@ prop_validation_failure() ->
     ?FORALL(
         A,
         proper_types:binary(10),
-        validate_is_atom([{name, A}]) == {error, {name, is_invalid}}
+        proper:equals(
+            validate_is_atom([{name, A}]),
+            {error, {name, is_invalid}}
+        )
     ).
 
 prop_raise_custom_value() ->
     ?FORALL(
         A,
         proper_types:binary(10),
-        validate_is_atom_custom([{name, A}]) == {error, {name, expected_atom}}
+        proper:equals(validate_is_atom_custom([{name, A}]), {error, {name, expected_atom}})
     ).
 
 prop_validation_must_return_bool_or_atom() ->
     ?FORALL(
         A,
         proper_types:binary(10),
-        failed_validate([{name, A}]) ==
+        proper:equals(
+            failed_validate([{name, A}]),
             {error, {name, validation_return, {expected_type, atom}, {got, 1}}}
+        )
     ).
 
 failed_validate(UserOpts) ->
