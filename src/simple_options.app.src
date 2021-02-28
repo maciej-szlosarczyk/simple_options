@@ -1,6 +1,6 @@
 {application, simple_options, [
     {description, "Definitions and validations of configuration options"},
-    {vsn, "0.1.0"},
+    {vsn, "0.2.0"},
     {registered, []},
     {applications, [
         kernel,

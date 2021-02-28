@@ -5,8 +5,6 @@ A library that facilitates defining options. It allows you to validate the
 options user passes into your library or inside your application, to ensure
 it is properly configured before started.
 
-This is still an experiment. It might be not tremendously useful to anyone.
-
 ```erl
 Definitions = [
     {default_timeout, [
